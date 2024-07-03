@@ -1,0 +1,9 @@
+**/bin
+**/build
+**/.gradle
+**/.settings
+**/.idea
+.classpath
+.project
+*.class
+/featherfly-common-locale-database

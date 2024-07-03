@@ -1,0 +1,41 @@
+allprojects {
+    apply from: rootDir.getAbsolutePath() +  '/java_base.gradle'   
+    apply from: rootDir.getAbsolutePath() +  '/maven_push.gradle'   
+
+    dependencies {
+        api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+//        api group: 'cn.featherfly.common', name: 'common-api', version: '0.5.0'
+        // api group: 'cn.featherfly.common', name: 'common-core', version: '1.12.0'
+
+        testImplementation group: 'org.testng', name: 'testng', version: '7.5.1'
+        testImplementation group: 'com.google.inject', name: 'guice', version: '4.2.3'
+        testImplementation 'org.slf4j:slf4j-log4j12:1.7.30'
+        testImplementation 'log4j:log4j:1.2.17'
+    }
+    
+    test {
+        useTestNG()
+        //reports.html.enabled = false
+    }
+    
+    ext {
+        sv = "5.3.36"
+    }
+}
+
+dependencies {
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+}
+
+def publishAllModulesLocal = task("allModulesPublishLocal", group: 'publishing') {}
+getSubprojects().each { p ->
+    def publishTask = project(":"+ p.name).tasks.findByName("publishReleasePublicationToMavenLocal")
+    if (publishTask != null) publishAllModulesLocal.dependsOn(publishTask)
+}
+
+def publishAllModulesRepository = task("allModulesPublishRepository", group: 'publishing') {}
+getSubprojects().each { p ->
+    def publishTask = project(":"+ p.name).tasks.findByName("publishReleasePublicationToMavenRepository")
+    if (publishTask != null) publishAllModulesRepository.dependsOn(publishTask)
+}
+
