@@ -1,0 +1,5 @@
+rootProject.name = 'validation-build'
+
+includeFlat 'validation-api'
+includeFlat 'validation-javax'
+includeFlat 'validation-jakarta'
