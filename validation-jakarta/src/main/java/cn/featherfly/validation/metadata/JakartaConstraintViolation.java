@@ -13,7 +13,7 @@ import jakarta.validation.Path;
 import jakarta.validation.metadata.ConstraintDescriptor;
 
 /**
- * JavaxConstraintViolation.
+ * JakartaConstraintViolation.
  *
  * @author zhongj
  * @param <T> the generic type

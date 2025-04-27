@@ -9,6 +9,7 @@
 package cn.featherfly.validation;
 
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.validation.Validator;
@@ -20,22 +21,26 @@ import cn.featherfly.validation.metadata.ConstraintViolation;
 import cn.featherfly.validation.metadata.JavaxConstraintViolation;
 
 /**
- * ValidatorProxy.
+ * JavaxValidator.
  *
  * @author zhongj
  */
 public class JavaxValidator implements cn.featherfly.validation.Validator {
 
-    private Validator validator;
+    private final Validator validator;
+
+    private final Function<String, ? extends RuntimeException> exceptionConstractor;
 
     /**
      * Instantiates a new javax validator.
      *
      * @param validator the validator
+     * @param exceptionConstractor the exception constractor
      */
-    public JavaxValidator(Validator validator) {
+    public JavaxValidator(Validator validator, Function<String, ? extends RuntimeException> exceptionConstractor) {
         super();
         this.validator = validator;
+        this.exceptionConstractor = exceptionConstractor;
     }
 
     /**
@@ -79,7 +84,7 @@ public class JavaxValidator implements cn.featherfly.validation.Validator {
      */
     @Override
     public ExecutableValidator forExecutables() {
-        return new JavaxExecutableValidator(validator.forExecutables());
+        return new JavaxExecutableValidator(validator.forExecutables(), exceptionConstractor);
     }
 
     /**

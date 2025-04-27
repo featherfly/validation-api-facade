@@ -24,6 +24,21 @@ public interface ExecutableValidator {
      * @param parameterValues the values provided by the caller for the given method's
      *        parameters
      * @param groups the group or list of groups targeted for validation
+     * @throws IllegalArgumentException if {@code null} is passed for any of the parameters
+     *         or if parameters don't match with each other
+     * @throws RuntimeException the given runtime exception when failed verification
+     */
+    <T> void validateParametersThrow(T object, Method method, Object[] parameterValues, Class<?>... groups);
+
+    /**
+     * Validates all constraints placed on the parameters of the given method.
+     *
+     * @param <T> the type hosting the method to validate
+     * @param object the object on which the method to validate is invoked
+     * @param method the method for which the parameter constraints is validated
+     * @param parameterValues the values provided by the caller for the given method's
+     *        parameters
+     * @param groups the group or list of groups targeted for validation
      * @return a set with the constraint violations caused by this validation;
      *         will be empty if no error occurs, but never {@code null}
      * @throws IllegalArgumentException if {@code null} is passed for any of the parameters
@@ -78,4 +93,5 @@ public interface ExecutableValidator {
      */
     <T> Set<ConstraintViolation<T>> validateConstructorReturnValue(Constructor<? extends T> constructor,
         T createdObject, Class<?>... groups);
+
 }

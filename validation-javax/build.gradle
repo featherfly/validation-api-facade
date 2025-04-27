@@ -1,4 +1,8 @@
 dependencies {
     api project(':validation-api')
     api group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    
+    
+    testImplementation group: 'org.glassfish', name: 'javax.el', version: '3.0.0' // hibernate-validator 需要使用 
+    testImplementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.2.5.Final'
 }

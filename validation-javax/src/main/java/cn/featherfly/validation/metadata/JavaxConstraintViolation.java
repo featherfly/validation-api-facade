@@ -8,9 +8,7 @@
  */
 package cn.featherfly.validation.metadata;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.Path;
-import javax.validation.metadata.ConstraintDescriptor;
 
 /**
  * JavaxConstraintViolation.
@@ -18,16 +16,16 @@ import javax.validation.metadata.ConstraintDescriptor;
  * @author zhongj
  * @param <T> the generic type
  */
-public class JavaxConstraintViolation<T> implements cn.featherfly.validation.metadata.ConstraintViolation<T> {
+public class JavaxConstraintViolation<T> implements ConstraintViolation<T> {
 
-    private final ConstraintViolation<T> constraintViolation;
+    private final javax.validation.ConstraintViolation<T> constraintViolation;
 
     /**
      * Instantiates a new javax constraint violation.
      *
      * @param constraintViolation the constraint violation
      */
-    public JavaxConstraintViolation(ConstraintViolation<T> constraintViolation) {
+    public JavaxConstraintViolation(javax.validation.ConstraintViolation<T> constraintViolation) {
         super();
         this.constraintViolation = constraintViolation;
     }
@@ -107,19 +105,9 @@ public class JavaxConstraintViolation<T> implements cn.featherfly.validation.met
     /**
      * Gets the property path.
      *
-     * @return the property path
+     * @return the property path to the value from {@code rootBean}
      */
     public Path getPropertyPath() {
         return constraintViolation.getPropertyPath();
     }
-
-    /**
-     * Gets the constraint descriptor.
-     *
-     * @return the constraint descriptor
-     */
-    public ConstraintDescriptor<?> getConstraintDescriptor() {
-        return constraintViolation.getConstraintDescriptor();
-    }
-
 }
