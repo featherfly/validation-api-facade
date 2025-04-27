@@ -8,6 +8,7 @@
  */
 package cn.featherfly.validation;
 
+import java.lang.annotation.Annotation;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import cn.featherfly.validation.executable.ExecutableValidator;
 import cn.featherfly.validation.executable.JakartaExecutableValidator;
 import cn.featherfly.validation.metadata.ConstraintViolation;
 import cn.featherfly.validation.metadata.JakartaConstraintViolation;
+import jakarta.validation.Constraint;
 import jakarta.validation.Validator;
 import jakarta.validation.metadata.BeanDescriptor;
 
@@ -94,5 +96,13 @@ public class JakartaValidator implements cn.featherfly.validation.Validator {
      */
     public BeanDescriptor getConstraintsForClass(Class<?> clazz) {
         return validator.getConstraintsForClass(clazz);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <A extends Annotation> boolean isConstraint(Class<A> constraintType) {
+        return constraintType.getAnnotation(Constraint.class) != null;
     }
 }

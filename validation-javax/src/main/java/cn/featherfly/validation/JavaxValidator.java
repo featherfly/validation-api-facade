@@ -8,10 +8,12 @@
  */
 package cn.featherfly.validation;
 
+import java.lang.annotation.Annotation;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.validation.Constraint;
 import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 
@@ -95,5 +97,13 @@ public class JavaxValidator implements cn.featherfly.validation.Validator {
      */
     public BeanDescriptor getConstraintsForClass(Class<?> clazz) {
         return validator.getConstraintsForClass(clazz);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <A extends Annotation> boolean isConstraint(Class<A> constraintType) {
+        return constraintType.getAnnotation(Constraint.class) != null;
     }
 }
