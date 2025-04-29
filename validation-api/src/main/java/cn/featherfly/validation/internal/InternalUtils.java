@@ -8,7 +8,7 @@
  */
 package cn.featherfly.validation.internal;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
 
 /**
@@ -18,7 +18,7 @@ import java.lang.reflect.Parameter;
  */
 public class InternalUtils {
 
-    public static String getMethodDescp(Method method) {
+    public static String getDescp(Executable method) {
         StringBuilder sb = new StringBuilder();
         sb.append(method.getName()).append("(");
         boolean params = false;

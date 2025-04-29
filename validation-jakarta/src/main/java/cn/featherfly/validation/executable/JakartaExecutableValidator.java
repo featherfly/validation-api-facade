@@ -9,6 +9,7 @@
 package cn.featherfly.validation.executable;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class JakartaExecutableValidator implements cn.featherfly.validation.exec
     private final Function<String, ? extends RuntimeException> exceptionConstractor;
 
     /**
-     * Instantiates a new javax executable validator.
+     * Instantiates a new jakarta executable validator.
      *
      * @param executableValidator the executable validator
      * @param exceptionConstractor the exception constractor
@@ -98,21 +99,86 @@ public class JakartaExecutableValidator implements cn.featherfly.validation.exec
             return;
         }
 
+        throw exceptionConstractor.apply(message(cvs, getClassName(object), method));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> Object validateReturnValueThrow(T object, Method method, Object returnValue, Class<?>... groups) {
+        Set<jakarta.validation.ConstraintViolation<T>> cvs =
+            executableValidator.validateReturnValue(object, method, returnValue, groups);
+        if (cvs.isEmpty()) {
+            return returnValue;
+        }
+
+        throw exceptionConstractor
+            .apply(message(cvs, getClassName(object), method));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> void validateConstructorParametersThrow(Constructor<? extends T> constructor, Object[] parameterValues,
+        Class<?>... groups) {
+        Set<jakarta.validation.ConstraintViolation<T>> cvs =
+            executableValidator.validateConstructorParameters(constructor,
+                parameterValues, groups);
+        if (cvs.isEmpty()) {
+            return;
+        }
+
+        throw exceptionConstractor.apply(message(cvs, constructor.getDeclaringClass().getName(), constructor));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> Object validateConstructorReturnValueThrow(Constructor<? extends T> constructor, T createdObject,
+        Class<?>... groups) {
+        Set<jakarta.validation.ConstraintViolation<T>> cvs =
+            executableValidator.validateConstructorReturnValue(constructor, createdObject, groups);
+        if (cvs.isEmpty()) {
+            return createdObject;
+        }
+
+        throw exceptionConstractor.apply(message(cvs, createdObject.getClass().getName(), constructor));
+    }
+
+    private String getClassName(Object object) {
+        return object instanceof Class ? ((Class<?>) object).getName() : object.getClass().getName();
+    }
+
+    private <T> String message(Set<jakarta.validation.ConstraintViolation<T>> cvs, String className,
+        Executable executable) {
         List<String> names = new ArrayList<>();
         StringBuilder errorMessage = new StringBuilder();
-        String className = object instanceof Class ? ((Class<?>) object).getName() : object.getClass().getName();
-        errorMessage.append(className).append(".").append(InternalUtils.getMethodDescp(method));
+        if (executable instanceof Method) {
+            errorMessage.append(className).append(".").append(InternalUtils.getDescp(executable));
+        } else {
+            errorMessage.append(InternalUtils.getDescp(executable));
+        }
 
         for (jakarta.validation.ConstraintViolation<T> cv : cvs) {
-            String name = cv.getPropertyPath().toString().substring(method.getName().length() + 1);
-            names.add(" " + name + cv.getMessage() + ",");
+            if (executable instanceof Method) {
+                names.add(" " + cv.getPropertyPath().toString().substring(executable.getName().length() + 1)
+                    + cv.getMessage() + ",");
+            } else {
+                names.add(" "
+                    + cv.getPropertyPath().toString()
+                        .substring(executable.getDeclaringClass().getSimpleName().length() + 1)
+                    + cv.getMessage() + ",");
+            }
         }
         names.sort(String::compareTo);
         for (String name : names) {
             errorMessage.append(name);
         }
         errorMessage.deleteCharAt(errorMessage.length() - 1);
-        throw exceptionConstractor.apply(errorMessage.toString());
+        return errorMessage.toString();
     }
 
 }
