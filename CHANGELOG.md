@@ -1,8 +1,14 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+## [v0.3.0] - 2025-04-30
+
+### Features
+
+- ExecutableValidator add validateReturnValueThrow,validateConstructorParametersThrow,validateConstructorReturnValueThrow method
 
 <a name="v0.2.0"></a>
+
 ## [v0.2.0] - 2025-04-29
 ### Features
 - Validator add isConstraint method

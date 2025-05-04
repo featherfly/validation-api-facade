@@ -38,7 +38,7 @@ public interface ExecutableValidator {
      * @param method the method for which the return value constraints is validated
      * @param returnValue the value returned by the given method
      * @param groups the group or list of groups targeted for validation
-     * @return when {@paramref returnValue} is pass return it self
+     * @return when <code>returnValue</code> is pass return it self
      * @throws IllegalArgumentException if {@code null} is passed for any of the object,
      *         method or groups parameters or if parameters don't match with each other
      * @throws RuntimeException the given runtime exception when failed verification
