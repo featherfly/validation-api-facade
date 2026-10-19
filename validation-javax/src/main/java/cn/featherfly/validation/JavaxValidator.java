@@ -14,6 +14,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.validation.Constraint;
+import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 
@@ -105,5 +106,14 @@ public class JavaxValidator implements cn.featherfly.validation.Validator {
     @Override
     public <A extends Annotation> boolean isConstraint(Class<A> constraintType) {
         return constraintType.getAnnotation(Constraint.class) != null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public <A extends Annotation> Class<A> getValidConstraint() {
+        return (Class<A>) Valid.class;
     }
 }

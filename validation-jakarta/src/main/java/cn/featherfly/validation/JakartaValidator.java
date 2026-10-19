@@ -18,6 +18,7 @@ import cn.featherfly.validation.executable.JakartaExecutableValidator;
 import cn.featherfly.validation.metadata.ConstraintViolation;
 import cn.featherfly.validation.metadata.JakartaConstraintViolation;
 import jakarta.validation.Constraint;
+import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import jakarta.validation.metadata.BeanDescriptor;
 
@@ -104,5 +105,14 @@ public class JakartaValidator implements cn.featherfly.validation.Validator {
     @Override
     public <A extends Annotation> boolean isConstraint(Class<A> constraintType) {
         return constraintType.getAnnotation(Constraint.class) != null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public <A extends Annotation> Class<A> getValidConstraint() {
+        return (Class<A>) Valid.class;
     }
 }

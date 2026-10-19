@@ -94,4 +94,12 @@ public interface Validator {
      * @return true, if is constraint
      */
     <A extends Annotation> boolean isConstraint(Class<A> constraintType);
+
+    /**
+     * Gets the valid constraint.
+     *
+     * @param <A> the generic type
+     * @return the valid Constraint
+     */
+    <A extends Annotation> Class<A> getValidConstraint();
 }

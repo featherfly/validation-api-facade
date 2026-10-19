@@ -1,14 +1,18 @@
 <a name="unreleased"></a>
-## [Unreleased]
 
-## [v0.3.0] - 2025-04-30
+## [v0.4.0] - 2026-10-19
 
 ### Features
+- validator add getValidConstraint() method
 
+<a name="v0.3.0"></a>
+
+## [v0.3.0] - 2025-05-04
+### Features
 - ExecutableValidator add validateReturnValueThrow,validateConstructorParametersThrow,validateConstructorReturnValueThrow method
 
-<a name="v0.2.0"></a>
 
+<a name="v0.2.0"></a>
 ## [v0.2.0] - 2025-04-29
 ### Features
 - Validator add isConstraint method
@@ -24,5 +28,6 @@
 - support javax and jakarta validation api proxy
 
 
-[Unreleased]: /compare/v0.2.0...HEAD
+[Unreleased]: /compare/v0.3.0...HEAD
+[v0.3.0]: /compare/v0.2.0...v0.3.0
 [v0.2.0]: /compare/v0.1.0...v0.2.0
