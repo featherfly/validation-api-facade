@@ -9,7 +9,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'validation-api-build'
+rootProject.name = 'validation-build'
 
 includeFlat 'validation-api'
 includeFlat 'validation-javax'
